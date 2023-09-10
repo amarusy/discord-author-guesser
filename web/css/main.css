@@ -1,0 +1,60 @@
+/* Dark grey background for the page */
+body {
+  background-color: #282C34;
+  margin: 50;
+  padding: 200;
+  height: 100vh;
+  justify-content: center;
+  display: grid;
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+
+h1 {
+  color: white;
+  font-family: "Arial", sans-serif;
+  font-size: 64px;
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
+
+p, div {
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+}
+
+
+#text-display {
+  text-align: left; /* Center child elements horizontally */
+  display: inline-table; /* Center child elements horizontally */
+  background-color: #1b1e24;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+#answer-inputs {
+  color: blue;
+  text-align: center;
+}
+
+
+.author-answer {
+  font-size: 16px;
+  text-align: center;
+  padding: auto;
+  margin: auto;
+  display: inline-block;
+}
+
+.button-id {
+  background-color: #1b1e24;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: white;
+  font-size: 64px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+}
