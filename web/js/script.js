@@ -20,6 +20,8 @@ function setText(text) {
 function checkAnswers() {
     if (currentTries < maxTries) {
         const answerInputs = document.querySelectorAll(".author-answer");
+        const yellowLabels = document.querySelectorAll(".author-yellowLabel");
+        const redLabels = document.querySelectorAll(".author-redLabel");
         const userAnswers = Array.from(answerInputs).map(input => input.value);
 
         eel.get_correct_answers()(function (correctAnswers) {
@@ -43,8 +45,21 @@ function checkAnswers() {
                     answerInputs[i].style.backgroundColor = 'transparent';
                     answerInputs[i].style.fontWeight = 'bold';
                 }
-                else
-                    answerInputs[i].disabled = false;
+                else if (Array.from(correctAnswers).includes(userAnswers[i])) {
+                    if (!yellowLabels[i].innerHTML.includes(userAnswers[i])) {
+                        if (yellowLabels[i].innerHTML != "") {
+                            yellowLabels[i].innerHTML += ", "
+                        }
+                        yellowLabels[i].innerHTML += userAnswers[i]
+                    }
+                } else {
+                    if (!redLabels[i].innerHTML.includes(userAnswers[i])) {
+                        if (redLabels[i].innerHTML != "") {
+                            redLabels[i].innerHTML += ", "
+                        }
+                        redLabels[i].innerHTML += userAnswers[i]
+                    }
+                }
             }
             if (!gotOneRight && !allCorrect) {
                 currentTries++;
@@ -72,6 +87,9 @@ function checkAnswers() {
 function updateUI() {
     document.getElementById("streak-display").innerHTML = "You are on a streak of " + streak + "!";
     document.getElementById("tries-display").innerHTML = (maxTries - currentTries) + " Tries Remaining";
+    if (maxTries - currentTries == 1){
+        document.getElementById("tries-display").innerHTML = "1 Try Remaining";
+    }
     if (maxTries - currentTries == 0) {
         document.getElementById("tries-display").style.color = 'red'
     } else {

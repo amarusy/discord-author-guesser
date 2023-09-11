@@ -56,7 +56,7 @@ def generate_text():
     # Generate input fields for each author
     input_fields = ''
     for author in authors:
-        input_fields += f'<input type="text" class="author-answer" placeholder="Author {author}" /><br>'
+        input_fields += f'<div> <input type="text" class="author-answer" placeholder="Author {author}"/> <label class="author-yellowLabel"></label> <label class="author-redLabel"></label> </div>'
 
     return output + input_fields
 

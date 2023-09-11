@@ -64,6 +64,24 @@ p, div {
   display: inline-block;
 }
 
+.author-yellowLabel{
+  font-size: 16px;
+  text-align: center;
+  color: #c8b356;
+  padding: auto;
+  margin: auto;
+  display: inline-block;
+}
+
+.author-redLabel{
+  font-size: 16px;
+  text-align: center;
+  color: #f31708;
+  padding: auto;
+  margin: auto;
+  display: inline-block;
+}
+
 .button-id {
   background-color: #1b1e24;
   border-radius: 15px;
