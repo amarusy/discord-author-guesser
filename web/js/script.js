@@ -1,8 +1,11 @@
 var maxTries = 3;
 var currentTries = 0;
+var streak = 0;
+var streakReedemable = true;
 
 function generateText() {
     currentTries = 0;
+    streakReedemable = true;
     updateUI();
     eel.generate_text()(setText);
 }
@@ -22,7 +25,11 @@ function checkAnswers() {
         eel.get_correct_answers()(function (correctAnswers) {
             // Compare userAnswers with correctAnswers
             const allCorrect = userAnswers.every((userAnswer, index) => userAnswer === correctAnswers[index]);
-
+            if (allCorrect && streakReedemable) {
+                streak++;
+                streakReedemable = false;
+                updateUI();
+            }
             var gotOneRight = false;
             for (let i = 0; i < answerInputs.length; i++) {
                 // Disable input fields and remove input field background for correct answers only
@@ -43,6 +50,7 @@ function checkAnswers() {
                 currentTries++;
                 updateUI();
                 if (currentTries >= maxTries) {
+                    streak = 0;
                     updateUI();
                     for (let i = 0; i < answerInputs.length; i++) {
                         // Disable All input fields and make the wrong ones red
@@ -62,10 +70,11 @@ function checkAnswers() {
 }
 
 function updateUI() {
+    document.getElementById("streak-display").innerHTML = "You are on a streak of " + streak + "!";
     document.getElementById("tries-display").innerHTML = (maxTries - currentTries) + " Tries Remaining";
-    if (maxTries - currentTries == 0){
+    if (maxTries - currentTries == 0) {
         document.getElementById("tries-display").style.color = 'red'
-    } else{
+    } else {
         document.getElementById("tries-display").style.color = 'green'
     }
 }
