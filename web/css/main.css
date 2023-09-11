@@ -33,11 +33,28 @@ p, div {
   padding: 20px;
 }
 
+#streak-display{
+  color: white;
+  font-family: "Arial", sans-serif;
+  font-size: 40px;
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
+
 #answer-inputs {
   color: blue;
   text-align: center;
 }
 
+#tries-display{
+  color: white;
+  font-family: "Arial", sans-serif;
+  font-size: 32px;
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
 
 .author-answer {
   font-size: 16px;
