@@ -28,11 +28,11 @@ function checkAnswers() {
         const answerInputs = document.querySelectorAll(".author-answer");
         const yellowLabels = document.querySelectorAll(".author-yellowLabel");
         const redLabels = document.querySelectorAll(".author-redLabel");
-        const userAnswers = Array.from(answerInputs).map(input => input.value);
+        const userAnswers = Array.from(answerInputs).map(input => input.value.toUpperCase());
 
         eel.get_correct_answers()(function (correctAnswers) {
             // Compare userAnswers with correctAnswers
-            const allCorrect = userAnswers.every((userAnswer, index) => userAnswer === correctAnswers[index]);
+            const allCorrect = userAnswers.every((userAnswer, index) => userAnswer.toLowerCase() === correctAnswers[index].toLowerCase());
             if (allCorrect && streakReedemable) {
                 streak++;
                 streakReedemable = false;
@@ -41,7 +41,7 @@ function checkAnswers() {
             var gotOneRight = false;
             for (let i = 0; i < answerInputs.length; i++) {
                 // Disable input fields and remove input field background for correct answers only
-                if (userAnswers[i].toUpperCase() === correctAnswers[i].toUpperCase()) {
+                if (userAnswers[i].toLowerCase() === correctAnswers[i].toLowerCase()) {
                     if (!answerInputs[i].disabled) {
                         gotOneRight = true;
                     }
@@ -51,19 +51,19 @@ function checkAnswers() {
                     answerInputs[i].style.backgroundColor = 'transparent';
                     answerInputs[i].style.fontWeight = 'bold';
                 }
-                else if (Array.from(correctAnswers).includes(userAnswers[i])) {
-                    if (!yellowLabels[i].innerHTML.includes(userAnswers[i])) {
+                else if (Array.from(correctAnswers).map((value) => value.toLowerCase()).includes(userAnswers[i].toLowerCase())) {
+                    if (!yellowLabels[i].innerHTML.includes(userAnswers[i].toLowerCase())) {
                         if (yellowLabels[i].innerHTML != "") {
                             yellowLabels[i].innerHTML += ", "
                         }
-                        yellowLabels[i].innerHTML += userAnswers[i]
+                        yellowLabels[i].innerHTML += userAnswers[i].toLowerCase();
                     }
                 } else {
-                    if (!redLabels[i].innerHTML.includes(userAnswers[i])) {
+                    if (!redLabels[i].innerHTML.includes(userAnswers[i].toLowerCase())) {
                         if (redLabels[i].innerHTML != "") {
                             redLabels[i].innerHTML += ", "
                         }
-                        redLabels[i].innerHTML += userAnswers[i]
+                        redLabels[i].innerHTML += userAnswers[i].toLowerCase()
                     }
                 }
             }
