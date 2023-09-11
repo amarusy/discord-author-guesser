@@ -14,7 +14,13 @@ function setText(text) {
     document.getElementById("text-display").innerHTML = text;
     document.getElementById("answer-inputs").innerHTML = '';
     const answerInputs = document.querySelectorAll(".author-answer");
-    Array.from(answerInputs).forEach(input => input.value = '');
+    Array.from(answerInputs).forEach(input => {
+        input.value = ''; input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkAnswers();
+            }
+        });
+    });
 }
 
 function checkAnswers() {
@@ -87,7 +93,7 @@ function checkAnswers() {
 function updateUI() {
     document.getElementById("streak-display").innerHTML = "You are on a streak of " + streak + "!";
     document.getElementById("tries-display").innerHTML = (maxTries - currentTries) + " Tries Remaining";
-    if (maxTries - currentTries == 1){
+    if (maxTries - currentTries == 1) {
         document.getElementById("tries-display").innerHTML = "1 Try Remaining";
     }
     if (maxTries - currentTries == 0) {
