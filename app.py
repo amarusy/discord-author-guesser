@@ -56,7 +56,7 @@ def generate_text():
     # Generate input fields for each author
     input_fields = ''
     for author in authors:
-        input_fields += f'<div> <input type="text" class="author-answer" placeholder="Author {author}"/> <label class="author-yellowLabel"></label> <label class="author-redLabel"></label> </div>'
+        input_fields += f'<div class="answer-div" autocomplete="off"> <input type="text" class="author-answer" placeholder="Author {author}"/> <label class="author-yellowLabel"></label> <label class="author-redLabel"></label> </div><br>'
 
     return output + input_fields
 
@@ -65,5 +65,12 @@ def generate_text():
 @eel.expose
 def get_correct_answers():
     return true_authors
+
+@eel.expose
+def get_all_authors():
+    df = pd.read_csv('output/messages.csv')
+    authors = df['author'].unique()
+    return list(authors)
+
 
 eel.start('index.html', size=(800, 800))
