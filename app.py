@@ -13,8 +13,8 @@ def generate_text():
     global true_authors
 
     # Define parameters
-    num_messages = 10
-    max_authors = 3
+    num_messages = 12
+    max_authors = 4
 
     # Load data
     df = pd.read_csv('output/messages.csv')
@@ -27,8 +27,6 @@ def generate_text():
         # Lowercase all authors
         messages['author'] = messages['author'].str.lower()
         authors = messages['author'].unique()
-        # authors = [author.lower() for author in authors]
-        # authors = messages['author'].unique()
         if len(authors) <= max_authors:
             break
 
