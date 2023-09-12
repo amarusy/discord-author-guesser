@@ -107,6 +107,7 @@ function autoComplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
     var currentFocus;
+    var listIsOpen = false;
     /*execute a function when someone writes in the text field:*/
     inp.addEventListener("input", function (e) {
         var a, b, i, val = this.value;
@@ -120,6 +121,7 @@ function autoComplete(inp, arr) {
         a.setAttribute("class", "autocomplete-items");
         /*append the DIV element as a child of the autocomplete container:*/
         this.parentNode.appendChild(a);
+        listIsOpen = false;
         /*for each item in the array...*/
         for (i = 0; i < arr.length; i++) {
             /*check if the item starts with the same letters as the text field value:*/
@@ -139,6 +141,7 @@ function autoComplete(inp, arr) {
                     (or any other open lists of autocompleted values:*/
                     closeAllLists();
                 });
+                listIsOpen = true;
                 a.appendChild(b);
             }
         }
@@ -147,7 +150,18 @@ function autoComplete(inp, arr) {
     inp.addEventListener("keydown", function (e) {
         var x = document.getElementById(this.id + "autocomplete-list");
         if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
+        if (e.keyCode == 9) {
+            if (listIsOpen) {
+                e.preventDefault();
+                if (e.shiftKey){
+                    currentFocus--;
+                } else{
+                    currentFocus++;
+                }
+                addActive(x);
+            } 
+        } 
+        else if (e.keyCode == 40) {
             /*If the arrow DOWN or tab key is pressed,
             increase the currentFocus variable:*/
             currentFocus++;
@@ -162,10 +176,10 @@ function autoComplete(inp, arr) {
         } else if (e.keyCode == 13) {
             /*If the ENTER key is pressed, prevent the form from being submitted,*/
             e.preventDefault();
-            if (currentFocus > -1) {
+            if (listIsOpen) {
                 /*and simulate a click on the "active" item:*/
                 if (x) x[currentFocus].click();
-            } else{
+            } else {
                 checkAnswers();
                 closeAllLists(null);
             }
@@ -196,6 +210,7 @@ function autoComplete(inp, arr) {
                 x[i].parentNode.removeChild(x[i]);
             }
         }
+        listIsOpen = false;
         currentFocus = -1;
     }
     /*execute a function when someone clicks in the document:*/
