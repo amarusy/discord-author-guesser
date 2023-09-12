@@ -12,9 +12,9 @@ true_authors = []
 def generate_text():
     global true_authors
 
-    # Define parameters
-    num_messages = 12
-    max_authors = 4
+    # Define parameters between ranges
+    num_messages = random.randint(6, 14)
+    max_authors = round(num_messages / 2)
 
     # Load data
     df = pd.read_csv('output/messages.csv')
@@ -42,7 +42,7 @@ def generate_text():
     print("true_authors: ", true_authors)
 
     # Define a dictionary to map author labels to colors
-    author_colors = {'A': '#E06C75', 'B': '#61AFEF', 'C': '#98C379', 'D': '#E5C07B'}  # Add more colors as needed
+    author_colors = {'A': '#E06C75', 'B': '#61AFEF', 'C': '#98C379', 'D': '#E5C07B', 'E': '#C678DD'}  # Add more colors as needed
 
     # Generate HTML with inline CSS to style each message with its author's color
     output = ''
