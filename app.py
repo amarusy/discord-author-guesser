@@ -1,6 +1,5 @@
 import pandas as pd
 import random
-from termcolor import colored
 import eel
 
 # Initialize eel
@@ -25,7 +24,7 @@ def generate_text(df=df, infrequent_authors=infrequent_authors, num_messages=num
     while True:
         random_number = random.randint(0, len(df) - num_messages)
         messages = df.iloc[random_number:random_number + num_messages]
-        messages['author'] = messages['author'].str.lower()
+        messages['author'].str.lower()
         authors = messages['author'].unique()
 
         # Check if conditions are met
