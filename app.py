@@ -3,59 +3,47 @@ import random
 from termcolor import colored
 import eel
 
-# set seed
-random.seed(3)
-
 # Initialize eel
 eel.init('web')
 
 # Load data
 df = pd.read_csv('output/messages.csv')
 
-# Define the global variable to store true authors
-true_authors = []
-
 # Define infrequent authors as those with < 2500 messages
 infrequent_authors = df['author'].value_counts()[df['author'].value_counts() < 2500].index.tolist()
 infrequent_authors = [author.lower() for author in infrequent_authors]
 
+# Set parameters
+num_messages = random.randint(6, 14)
+max_authors = 5
 
 @eel.expose
-def generate_text(df=df, infrequent_authors=infrequent_authors):
+def generate_text(df=df, infrequent_authors=infrequent_authors, num_messages=num_messages, max_authors=max_authors):
     global true_authors
 
-    # Define parameters between ranges
-    num_messages = random.randint(6, 14)
-    # max_authors = round(num_messages / 2)
-    max_authors = 4
-
-    # Load data
-    df = df
-
-    # False until a sequence of specified length and max authors is found
+    # False until a sequence of specified length and max authors is found with at least 2 messages per author
     while True:
         random_number = random.randint(0, len(df) - num_messages)
         messages = df.iloc[random_number:random_number + num_messages]
-
-        # Lowercase all authors
         messages['author'] = messages['author'].str.lower()
         authors = messages['author'].unique()
-        if len(authors) <= max_authors:
+
+        # Check if conditions are met
+        if len(authors) <= max_authors and all(messages['author'].value_counts() >= 2):
             break
 
     # Save true authors as lowercase
     true_authors = list(authors)
 
-
-    print(infrequent_authors)
-    # Replace unique authors with A, B, C, etc only for non-infrequent authors
+    # Replace frequent unique authors with A, B, C, etc.
     for i in range(len(authors)):
         if authors[i] not in infrequent_authors:
             messages.loc[messages['author'] == authors[i], 'author'] = chr(ord('A') + i)
             authors[i] = chr(ord('A') + i)
 
-    print("authors: ", authors)
-    print("true_authors: ", true_authors)
+    # # Debugging
+    # print("authors: ", authors)
+    # print("true_authors: ", true_authors)
 
     # Define a dictionary to map author labels to colors
     author_colors = {'A': '#E06C75', 'B': '#61AFEF', 'C': '#98C379', 'D': '#E5C07B', 'E': '#C678DD'}  # Add more colors as needed
