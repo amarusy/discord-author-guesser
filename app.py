@@ -3,21 +3,34 @@ import random
 from termcolor import colored
 import eel
 
+# set seed
+random.seed(3)
+
+# Initialize eel
 eel.init('web')
+
+# Load data
+df = pd.read_csv('output/messages.csv')
 
 # Define the global variable to store true authors
 true_authors = []
 
+# Define infrequent authors as those with < 2500 messages
+infrequent_authors = df['author'].value_counts()[df['author'].value_counts() < 2500].index.tolist()
+infrequent_authors = [author.lower() for author in infrequent_authors]
+
+
 @eel.expose
-def generate_text():
+def generate_text(df=df, infrequent_authors=infrequent_authors):
     global true_authors
 
     # Define parameters between ranges
     num_messages = random.randint(6, 14)
-    max_authors = round(num_messages / 2)
+    # max_authors = round(num_messages / 2)
+    max_authors = 4
 
     # Load data
-    df = pd.read_csv('output/messages.csv')
+    df = df
 
     # False until a sequence of specified length and max authors is found
     while True:
@@ -33,10 +46,13 @@ def generate_text():
     # Save true authors as lowercase
     true_authors = list(authors)
 
-    # Replace unique authors with A, B, C, etc.
+
+    print(infrequent_authors)
+    # Replace unique authors with A, B, C, etc only for non-infrequent authors
     for i in range(len(authors)):
-        messages.loc[messages['author'] == authors[i], 'author'] = chr(ord('A') + i)
-        authors[i] = chr(ord('A') + i) 
+        if authors[i] not in infrequent_authors:
+            messages.loc[messages['author'] == authors[i], 'author'] = chr(ord('A') + i)
+            authors[i] = chr(ord('A') + i)
 
     print("authors: ", authors)
     print("true_authors: ", true_authors)
