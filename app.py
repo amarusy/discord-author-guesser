@@ -9,16 +9,17 @@ eel.init('web')
 df = pd.read_csv('output/messages.csv')
 
 # Define infrequent authors as those with < 2500 messages
-infrequent_authors = df['author'].value_counts()[df['author'].value_counts() < 2500].index.tolist()
+infrequent_authors = df['author'].value_counts()[df['author'].value_counts() < 5000].index.tolist()
 infrequent_authors = [author.lower() for author in infrequent_authors]
 
-# Set parameters
-num_messages = random.randint(6, 14)
-max_authors = 5
 
 @eel.expose
-def generate_text(df=df, infrequent_authors=infrequent_authors, num_messages=num_messages, max_authors=max_authors):
+def generate_text(df=df, infrequent_authors=infrequent_authors):
     global true_authors
+
+    # Set parameters
+    num_messages = random.randint(6, 14)
+    max_authors = 5
 
     # False until a sequence of specified length and max authors is found with at least 2 messages per author
     while True:
